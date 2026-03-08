@@ -513,7 +513,9 @@ class PostgresStorage(Storage[ContextT]):
 
         return await self._retry_on_connection_error(_update)
 
-    async def list_tasks(self, length: int | None = None, offset: int = 0) -> list[Task]:
+    async def list_tasks(
+        self, length: int | None = None, offset: int = 0
+    ) -> list[Task]:
         """List all tasks using SQLAlchemy.
 
         Args:
@@ -717,7 +719,9 @@ class PostgresStorage(Storage[ContextT]):
 
         await self._retry_on_connection_error(_append)
 
-    async def list_contexts(self, length: int | None = None, offset: int = 0) -> list[ContextT]:
+    async def list_contexts(
+        self, length: int | None = None, offset: int = 0
+    ) -> list[ContextT]:
         """List all contexts using SQLAlchemy.
 
         Args:
@@ -759,11 +763,14 @@ class PostgresStorage(Storage[ContextT]):
                 rows = result.fetchall()
 
                 return [
-                    typing.cast(ContextT, {
-                        "context_id": row.context_id,
-                        "task_count": row.task_count,
-                        "task_ids": row.task_ids,
-                    })
+                    typing.cast(
+                        ContextT,
+                        {
+                            "context_id": row.context_id,
+                            "task_count": row.task_count,
+                            "task_ids": row.task_ids,
+                        },
+                    )
                     for row in rows
                 ]
 

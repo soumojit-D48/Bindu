@@ -112,7 +112,7 @@ class Storage(ABC, Generic[ContextT]):
 
         Returns:
             Count of matching tasks
-            
+
         Note:
             Must be implemented by subclasses to ensure efficient DB-level counting
             (e.g., SELECT COUNT(*)) rather than loading all records into Python memory.
@@ -204,11 +204,11 @@ class Storage(ABC, Generic[ContextT]):
 
         Warning: This is a destructive operation.
         """
-        
+
     @abstractmethod
     async def close(self) -> None:
         """Safely close database connection pools and cleanup resources.
-        
+
         Ensures graceful shutdown for persistent storage engines.
         """
 

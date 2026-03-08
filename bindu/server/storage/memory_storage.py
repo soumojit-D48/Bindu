@@ -331,7 +331,9 @@ class InMemoryStorage(Storage[ContextT]):
         # to ensure context-task mapping associations are safely preserved.
         pass
 
-    async def list_tasks(self, length: int | None = None, offset: int = 0) -> list[Task]:
+    async def list_tasks(
+        self, length: int | None = None, offset: int = 0
+    ) -> list[Task]:
         """List all tasks in storage.
 
         Args:
@@ -342,13 +344,13 @@ class InMemoryStorage(Storage[ContextT]):
             List of tasks
         """
         all_tasks = list(self.tasks.values())
-        
+
         if offset > 0:
             all_tasks = all_tasks[offset:]
-            
+
         if length is not None and length > 0:
             all_tasks = all_tasks[:length]
-            
+
         return all_tasks
 
     async def count_tasks(self, status: TaskState | None = None) -> int:
@@ -397,10 +399,12 @@ class InMemoryStorage(Storage[ContextT]):
 
         if length is not None and length > 0:
             tasks = tasks[:length]
-            
+
         return tasks
 
-    async def list_contexts(self, length: int | None = None, offset: int = 0) -> list[ContextT]:
+    async def list_contexts(
+        self, length: int | None = None, offset: int = 0
+    ) -> list[ContextT]:
         """List all contexts in storage.
 
         Args:
@@ -411,7 +415,14 @@ class InMemoryStorage(Storage[ContextT]):
             List of typed ContextT objects
         """
         contexts = [
-            cast(ContextT, {"context_id": ctx_id, "task_count": len(task_ids), "task_ids": task_ids})
+            cast(
+                ContextT,
+                {
+                    "context_id": ctx_id,
+                    "task_count": len(task_ids),
+                    "task_ids": task_ids,
+                },
+            )
             for ctx_id, task_ids in self.contexts.items()
         ]
 
@@ -420,7 +431,7 @@ class InMemoryStorage(Storage[ContextT]):
 
         if length is not None and length > 0:
             contexts = contexts[:length]
-            
+
         return contexts
 
     async def clear_context(self, context_id: UUID) -> None:
